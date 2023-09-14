@@ -17,7 +17,7 @@ all:$(NAME)
 
 $(NAME):$(OBJS)
 	$(MAKE) -C $(LIBFTDIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFTDIR) -lft
+	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJS) -L$(LIBFTDIR) -lft
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
