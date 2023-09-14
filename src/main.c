@@ -9,8 +9,14 @@ void	bash_loop(void)
 		line = readline(MINISHELL);
 		if (!line)
 			break ;
-		printf("%s\n", line);
-		free(line);
+		else if (line[0] == '\0')
+			free(line);
+		else
+		{
+			printf("%s\n", line);
+			add_history(line);
+			free(line);
+		}
 	}
 }
 
