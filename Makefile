@@ -29,7 +29,7 @@ clean:
 	$(MAKE) -C $(LIBFTDIR) clean
 
 fclean:
-	$(RM) $(NAME)
+	$(RM) $(OBJS) $(NAME)
 	$(MAKE) -C $(LIBFTDIR) fclean
 
 re: fclean all
