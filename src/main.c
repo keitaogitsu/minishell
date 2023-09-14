@@ -7,6 +7,10 @@ void	bash_loop(void)
 	while (1)
 	{
 		line = readline(MINISHELL);
+		if (!line)
+			break ;
+		printf("%s\n", line);
+		free(line);
 	}
 }
 
