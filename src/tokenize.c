@@ -6,44 +6,69 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/19 14:50:11 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/20 00:56:13 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_command	*tokenize(char *str)
+static t_command *add_token(t_command **list, char *token)
+{
+	t_command	*new_node;
+	t_command	*tmp;
+
+	new_node = (t_command *)malloc(sizeof(t_command));
+	if (!new_node)
+		return (NULL);
+	new_node->token = ft_strdup(token);
+	new_node->next = NULL;
+	if (*list == NULL)
+		*list = new_node;
+	else
+	{
+		tmp = *list;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_node;
+	}
+	return (new_node);
+}
+
+static t_command	*tokenize(const char *str)
 {
 	t_command	*head;
 	const char	*start;
 	bool		d_quote;
 	bool		s_quote;
 	char		*token;
-	size_t		i;
 
 	head = NULL;
-	while (str[i])
+	while (*str)
 	{
-		while (str[i] == SPACE)
-			i++;
+		while (*str == SPACE)
+			str++;
 		start = str;
 		d_quote = false;
 		s_quote = false;
-		while (str[i])
+		while (*str)
 		{
-			if (!d_quote && str[i] == D_QUOTE)
+			if (!d_quote && *str == D_QUOTE)
 				d_quote = true;
-			else if (!d_quote && str[i] == S_QUOTE)
+			else if (!d_quote && *str == S_QUOTE)
 				s_quote = true;
-			else if (!d_quote && !s_quote && str[i] == SPACE)
+			else if (d_quote && *str == D_QUOTE)
+			{
+				str++;
 				break ;
-			i++;
+			}
+			else if (!d_quote && !s_quote && *str == SPACE)
+				break ;
+			str++;
 		}
 		if (str > start)
 		{
 			token = strndup(start, str - start);
-			printf("%s\n", token);
-//			add_token(&head, token);
+			add_token(&head, token);
 			free(token);
 		}
 	}
@@ -57,11 +82,11 @@ int	syntax_analysis(char *line)
 	cmd = tokenize(line);
 	if (!cmd)
 		return (1);
-//	while (cmd)
-//	{
-//		printf("token > %s\n", cmd->token);
-//		cmd = cmd->next;
-//	}
+	while (cmd)
+	{
+		printf("token > %s\n", cmd->token);
+		cmd = cmd->next;
+	}
 	return (0);
 }
 
