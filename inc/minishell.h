@@ -41,4 +41,9 @@ typedef struct s_node
 	struct s_node	*right;
 }	t_node;
 
+t_node	*tokenizeAndParse(const char *cmd);
+
+//utils
+char	*ft_strndup(const char *s1, size_t n);
+
 #endif

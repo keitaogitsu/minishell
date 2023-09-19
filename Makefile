@@ -2,7 +2,7 @@ NAME	= minishell
 
 SRCSDIR	= src/
 
-SRCS = main.c
+SRCS = main.c tokenize.c utils.c
 
 OBJS	= $(addprefix $(SRCSDIR), $(SRCS:.c=.o))
 
