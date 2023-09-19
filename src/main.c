@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:52 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/19 08:39:11 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:50:15 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	get_args(char *line)
 
 void	bash_loop(void)
 {
+	t_node	*node;
 	char	*line;
 	int		flag;
 
@@ -39,12 +40,9 @@ void	bash_loop(void)
 		else
 		{
 			add_history(line);
-//				flag = 1;
-			t_node	*tree = tokenizeAndParse(line);
-			printf("top_type %d\nleft_type %d\n right_type %d\n%s\nr %s\nl %s\n", tree->type, tree->left->type, tree->right->type, tree->name, tree->right->name, tree->left->name);
-			tree = tree->right;
-			printf("\n\n");
-			printf("top_type %d\nleft_type %d\n right_type %d\n%s\nr %s\nl %s\n", tree->type, tree->left->type, tree->right->type, tree->name, tree->right->name, tree->left->name);
+			if (syntax_analysis(line) == 1)
+				flag = 1;
+//			printf("name > %s\n r %s\n l %s\n", node->name, node->right->name, node->left->name);
 			free(line);
 		}
 	}
