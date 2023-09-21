@@ -24,7 +24,11 @@
 # define SPACE ' '
 # define D_QUOTE '"'
 # define S_QUOTE '\''
-# define PYPE "|"
+# define PYPE '|'
+# define REDIR_IN '<'
+# define REDIR_OUT '>'
+# define REDIR_HIRE "<<"
+# define REDIR_APPEND ">>"
 
 typedef struct s_command
 {
@@ -37,8 +41,8 @@ typedef enum e_type
 	CMD,
 	REDIR_IN,
 	REDIR_OUT,
-	REDIR_APPEND,
 	REDIR_HERE,
+	REDIR_APPEND,
 	PIPE
 }	t_type;
 
@@ -46,6 +50,7 @@ typedef struct s_node
 {
 	enum e_type		type;
 	char			*name;
+	char			*option;
 	char			**args;
 	struct s_node	*left;
 	struct s_node	*right;

@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/20 00:56:13 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:36:50 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static t_command	*tokenize(const char *str)
 		s_quote = false;
 		while (*str)
 		{
+//1			if (!d_quote && *str == PYPE)
 			if (!d_quote && *str == D_QUOTE)
 				d_quote = true;
 			else if (!d_quote && *str == S_QUOTE)
