@@ -36,19 +36,19 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef enum e_type
-{
-	CMD,
-	REDIR_IN,
-	REDIR_OUT,
-	REDIR_HERE,
-	REDIR_APPEND,
-	PIPE
-}	t_type;
+//typedef enum e_type
+//{
+//	CMD,
+//	REDIR_IN,
+//	REDIR_OUT,
+//	REDIR_HERE,
+//	REDIR_APPEND,
+//	PIPE
+//}	t_type;
 
 typedef struct s_node
 {
-	enum e_type		type;
+//	enum e_type		type;
 	char			*name;
 	char			*option;
 	char			**args;
@@ -57,8 +57,6 @@ typedef struct s_node
 }	t_node;
 
 int		syntax_analysis(char *line);
-t_node	*parse(const char *line);
-t_node	*tokenizeAndParse(const char *cmd);
 
 //utils
 char	*ft_strndup(const char *s1, size_t n);

@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:52 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/19 14:50:15 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:57:32 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	bash_loop(void)
 			add_history(line);
 			if (syntax_analysis(line) == 1)
 				flag = 1;
-//			printf("name > %s\n r %s\n l %s\n", node->name, node->right->name, node->left->name);
 			free(line);
 		}
 	}
