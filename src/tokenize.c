@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/22 17:34:07 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/22 20:32:01 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ static t_command *add_token(t_command **list, char *token)
 	return (new_node);
 }
 
-const char	*handle_token(const char *str, t_command **head)
+const char	*handle_token(const char *str, const char *start, t_command **head)
 {
 	char	*token;
-	const char *start = str;
 
 	if (str > start)
 	{
@@ -82,9 +81,10 @@ static t_command	*tokenize(const char *str)
 			}
 			else if (!d_quote && !s_quote && *str == SPACE)
 				break ;
-			else if (!d_quote && !s_quote && *str == PYPE)
+			else if (!d_quote && !s_quote && (*str == PYPE
+						|| *str == REDIR_IN || *str == REDIR_OUT))
 			{
-				str = handle_token(str, &head);
+				str = handle_token(str, start, &head);
 				start = str;
 				break ;
 			}
