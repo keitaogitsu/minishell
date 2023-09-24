@@ -6,13 +6,13 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/23 14:44:36 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:07:51 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static t_command *add_token(t_command **list, char *token)
+static t_command	*add_token(t_command **list, char *token)
 {
 	t_command	*new_node;
 	t_command	*tmp;
@@ -34,7 +34,8 @@ static t_command *add_token(t_command **list, char *token)
 	return (new_node);
 }
 
-static const char	*handle_token(const char *str, const char *start, t_command **head)
+static const char	*handle_token(const char *str, \
+		const char *start, t_command **head)
 {
 	char	*token;
 
@@ -48,12 +49,15 @@ static const char	*handle_token(const char *str, const char *start, t_command **
 	token = ft_strndup(str - 1, 1);
 	add_token(head, token);
 	free(token);
-
 	return (str);
 }
 
-static const char	*check_cmd_type(const char *str, const char *start, bool s_quote, bool d_quote, t_command *head)
+static const char	*check_cmd_type(const char *str, t_command *head, \
+		bool s_quote, bool d_quote)
 {
+	const char	*start;
+
+	start = str;
 	while (*str)
 	{
 		if (!d_quote && *str == D_QUOTE)
@@ -68,10 +72,9 @@ static const char	*check_cmd_type(const char *str, const char *start, bool s_quo
 		else if (!d_quote && !s_quote && *str == SPACE)
 			break ;
 		else if (!d_quote && !s_quote && (*str == PYPE
-					|| *str == REDIR_IN || *str == REDIR_OUT))
+				|| *str == REDIR_IN || *str == REDIR_OUT))
 		{
 			str = handle_token(str, start, &head);
-			start = str;/////   <---
 			break ;
 		}
 		str++;
@@ -79,15 +82,13 @@ static const char	*check_cmd_type(const char *str, const char *start, bool s_quo
 	return (str);
 }
 
-static t_command	*tokenize(const char *str)
+static t_command	*tokenize(const char *str, t_command *head)
 {
-	t_command	*head;
 	const char	*start;
 	char		*token;
 	bool		d_quote;
 	bool		s_quote;
 
-	head = NULL;
 	while (*str)
 	{
 		while (*str == SPACE)
@@ -95,7 +96,10 @@ static t_command	*tokenize(const char *str)
 		start = str;
 		d_quote = false;
 		s_quote = false;
-		str = check_cmd_type(str, start, s_quote, d_quote, head);
+		str = check_cmd_type(str, head, s_quote, d_quote);
+		if (!d_quote && !s_quote && (*(str - 1) == PYPE
+				|| *(str - 1) == REDIR_IN || *(str - 1) == REDIR_OUT))
+			start = str;
 		if (str > start)
 		{
 			token = strndup(start, str - start);
@@ -108,16 +112,16 @@ static t_command	*tokenize(const char *str)
 
 int	syntax_analysis(char *line)
 {
-	t_command	*cmd;
+	t_command	*head;
 
-	cmd = tokenize(line);
-	if (!cmd)
+	head = NULL;
+	head = tokenize(line, head);
+	if (!head)
 		return (1);
-	while (cmd)
+	while (head)
 	{
-		printf("token > %s\n", cmd->token);
-		cmd = cmd->next;
+		printf("token > %s\n", head->token);
+		head = head->next;
 	}
 	return (0);
 }
-

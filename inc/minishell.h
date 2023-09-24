@@ -30,13 +30,6 @@
 # define REDIR_HIRE "<<"
 # define REDIR_APPEND ">>"
 
-//tokenize
-//typedef struct s_parser_result
-//{
-//	const char	*str;
-//	const char	*start:
-//}	t_parser_result;
-
 typedef struct s_command
 {
 	char				*token;
