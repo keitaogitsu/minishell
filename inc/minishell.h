@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:45 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/19 14:46:54 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/24 19:37:17 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,26 @@
 # define REDIR_HIRE "<<"
 # define REDIR_APPEND ">>"
 
-typedef struct s_command
+typedef struct s_token_list
 {
 	char				*token;
-	struct s_command	*next;
-}	t_command;
+	struct s_token_list	*next;
+}	t_token_list;
 
-//typedef enum e_type
-//{
-//	CMD,
-//	REDIR_IN,
-//	REDIR_OUT,
-//	REDIR_HERE,
-//	REDIR_APPEND,
-//	PIPE
-//}	t_type;
+typedef enum e_type
+{
+	N_COMMAND,
+	N_REDIR_IN,
+	N_REDIR_OUT,
+	N_REDIR_HERE,
+	N_REDIR_APPEND,
+	N_PIPE
+}	t_type;
 
 typedef struct s_node
 {
-//	enum e_type		type;
-	char			*name;
-	char			*option;
+	enum e_type		type;
+//	char			*name;
 	char			**args;
 	struct s_node	*left;
 	struct s_node	*right;

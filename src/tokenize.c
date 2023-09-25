@@ -6,18 +6,18 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/24 17:07:51 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/24 19:49:11 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static t_command	*add_token(t_command **list, char *token)
+static t_token_list	*add_token(t_token_list **list, char *token)
 {
-	t_command	*new_node;
-	t_command	*tmp;
+	t_token_list	*new_node;
+	t_token_list	*tmp;
 
-	new_node = (t_command *)malloc(sizeof(t_command));
+	new_node = (t_token_list *)malloc(sizeof(t_token_list));
 	if (!new_node)
 		return (NULL);
 	new_node->token = ft_strdup(token);
@@ -35,7 +35,7 @@ static t_command	*add_token(t_command **list, char *token)
 }
 
 static const char	*handle_token(const char *str, \
-		const char *start, t_command **head)
+		const char *start, t_token_list **head)
 {
 	char	*token;
 
@@ -52,7 +52,7 @@ static const char	*handle_token(const char *str, \
 	return (str);
 }
 
-static const char	*check_cmd_type(const char *str, t_command *head, \
+static const char	*check_cmd_type(const char *str, t_token_list *head, \
 		bool s_quote, bool d_quote)
 {
 	const char	*start;
@@ -82,7 +82,7 @@ static const char	*check_cmd_type(const char *str, t_command *head, \
 	return (str);
 }
 
-static t_command	*tokenize(const char *str, t_command *head)
+static t_token_list	*tokenize(const char *str, t_token_list *head)
 {
 	const char	*start;
 	char		*token;
@@ -112,7 +112,7 @@ static t_command	*tokenize(const char *str, t_command *head)
 
 int	syntax_analysis(char *line)
 {
-	t_command	*head;
+	t_token_list	*head;
 
 	head = NULL;
 	head = tokenize(line, head);
