@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/24 19:49:11 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:23:32 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static const char	*handle_token(const char *str, \
 
 	if (str > start)
 	{
-		token = strndup(start, str - start);
+		token = ft_strndup(start, str - start);
 		add_token(head, token);
 		free(token);
 	}
@@ -118,10 +118,5 @@ int	syntax_analysis(char *line)
 	head = tokenize(line, head);
 	if (!head)
 		return (1);
-	while (head)
-	{
-		printf("token > %s\n", head->token);
-		head = head->next;
-	}
 	return (0);
 }

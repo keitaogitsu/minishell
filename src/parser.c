@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:19:00 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/25 20:43:45 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:01:44 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,32 @@ t_node	*parse_command(t_token_list *list)
 	}
 }
 
-t_node	*parse_pipeline(t_token_list *token)
+char	*pop(t_token_list **list)
 {
-	size_t	i;
+	char	*value;
 
-	i = 0;
+	if (!(*list))
+	    return (NULL);
+	value = (*list)->token;
+	*list = (*list)->next;
+	return (value);
+}
 
-	while (*token)
+t_node	*parse_pipeline(t_token_list **list)
+{
+	char	*token;
+
+	if (!list)
+		return (node);
+	token = pop(list);
+	if (*list->list == PYPE)
 	{
-		node->left->value[i++] = token->token;
-		token = token->next;
-		if (*list->token == PYPE)
-		{
-			node->value = token;
-			node->typw = N_TYPE;
-		}
-		else
-		{
-			node->right->
-		}
+		node->value = token;
+		node->typw = N_TYPE;
+	}
+	else
+	{
+		node->right->
 	}
 	return (node);
 }
