@@ -50,7 +50,7 @@ typedef struct s_node
 {
 	enum e_type		type;
 //	char			*name;
-	char			**args;
+	char			**value;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;

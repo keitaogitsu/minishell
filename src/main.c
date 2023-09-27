@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:52 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/22 17:57:32 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:41:00 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	get_args(char *line)
 {
 	char	**input;
-	size_t		i;
+	size_t	i;
 
 	input = ft_split(line, SPACE);
 	if (!input)
