@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 09:55:54 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/19 11:44:53 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:36:22 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,22 @@ char	*ft_strstr(const char *big, const char *little)
 		i++;
 	}
 	return (NULL);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	const unsigned char	*str1;
+	const unsigned char	*str2;
+	size_t				i;
+
+	str1 = (const unsigned char *)s1;
+	str2 = (const unsigned char *)s3;
+	i = 0;
+	while (str1[i] || str2[i])
+	{
+		if (str1[i] != str2[i])
+			return (int)(str1[i] - str2[i]);
+		i++;
+	}
+	return (0);
 }

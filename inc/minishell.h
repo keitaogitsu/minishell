@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:45 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/24 19:37:17 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:36:59 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ int		syntax_analysis(char *line);
 //utils
 char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strstr(const char *big, const char *little);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif
