@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/27 18:23:32 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:27:41 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_token_list	*add_token(t_token_list **list, char *token)
 		return (NULL);
 	new_node->token = ft_strdup(token);
 	new_node->next = NULL;
-	if (*list == NULL)
+	if (!(*list))
 		*list = new_node;
 	else
 	{
@@ -110,13 +110,26 @@ static t_token_list	*tokenize(const char *str, t_token_list *head)
 	return (head);
 }
 
+void	print_list(t_token_list *list)
+{
+	while (list)
+	{
+		printf("list-> %s\n", list->token);
+		list = list->next;
+	}
+	printf("\n");
+}
+
 int	syntax_analysis(char *line)
 {
 	t_token_list	*head;
+	t_node			*node;
 
 	head = NULL;
 	head = tokenize(line, head);
 	if (!head)
 		return (1);
+	print_list(head);
+	node = parser_start(&head);
 	return (0);
 }

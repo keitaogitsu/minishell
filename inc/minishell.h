@@ -43,23 +43,24 @@ typedef enum e_type
 	N_REDIR_OUT,
 	N_REDIR_HERE,
 	N_REDIR_APPEND,
-	N_PIPE
+	N_PYPE
 }	t_type;
 
 typedef struct s_node
 {
 	enum e_type		type;
-//	char			*name;
-	char			**value;
+	char			*value;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
 
 int		syntax_analysis(char *line);
+t_node	*parser_start(t_token_list **list);
 
 //utils
 char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strstr(const char *big, const char *little);
 int		ft_strcmp(const char *s1, const char *s2);
+char	*my_strjoin(char const *s1, char const *s2);
 
 #endif

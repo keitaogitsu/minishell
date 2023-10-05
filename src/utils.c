@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 09:55:54 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/29 18:36:22 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:01:28 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,41 @@ int	ft_strcmp(const char *s1, const char *s2)
 	size_t				i;
 
 	str1 = (const unsigned char *)s1;
-	str2 = (const unsigned char *)s3;
+	str2 = (const unsigned char *)s2;
 	i = 0;
 	while (str1[i] || str2[i])
 	{
 		if (str1[i] != str2[i])
-			return (int)(str1[i] - str2[i]);
+			return ((int)(str1[i] - str2[i]));
 		i++;
 	}
 	return (0);
+}
+
+char	*my_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+	char	*result;
+	int		flag;
+
+	flag = 0;
+	if (!s1)
+	{
+		s1 = ft_calloc(1, 1);
+		flag++;
+	}
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	result = str;
+	while (*s1)
+		*str++ = *s1++;
+	if (flag)
+		free((char *)s1);
+	while (*s2)
+		*str++ = *s2++;
+	*str = '\0';
+	return (result);
 }
