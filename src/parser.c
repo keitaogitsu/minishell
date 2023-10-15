@@ -6,88 +6,41 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:19:00 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/10/15 14:41:27 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/16 00:19:12 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*pop_token(t_token_list **list)
+static char	*pop_token(t_token_list **list)
 {
 	char	*value;
 
 	if (!(*list))
-	    return (NULL);
+		return (NULL);
 	value = (*list)->token;
 	*list = (*list)->next;
 	return (value);
 }
 
-t_node	*node_init(void)
+static int	updata_type_value(t_node *node, \
+		t_token_list **list, t_parse_check *key)
 {
-	t_node	*node;
-
-	node = (t_node *)malloc(sizeof(t_node));
-	if (!node)
-		return (NULL);
-	node->value = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-t_node	*all_node_init(void)
-{
-	t_node	*node;
-
-	node = node_init();
-	if (!node)
-		return (NULL);
-	node->left = node_init();
-	if (!node->left)
+	if (!key->key_type)
 	{
-		free(node);
-		free(node->left);
-		return (NULL);
+		key->key_type = true;
+		node->type = N_PYPE;
+		node->value = key->token;
+		key->key_list = *list;
 	}
-	node->right = node_init();
-	if (!node->right)
+	else
 	{
-		free(node);
-		free(node->left);
-		return (NULL);
+		node->right->value = key->token;
+		node->right->type = N_PYPE;
+		node->right = parser(node->right, &key->key_list, key);
+		return (1);
 	}
-	return (node);
-}
-
-//t_node	*redir_parse(t_node *node, t_token **list)
-//{
-//	char	*token;
-//
-//	while (*list)
-//	{
-//		token = pop_token(list);
-//		if (!token)
-//			return (NULL);
-//		if (ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0)
-//	}
-//	return (node);
-//}
-
-bool	check_type(t_token_list *start, t_token_list *list)
-{
-	t_token_list	*tmp;
-
-	tmp = start;
-	while (tmp->next && ft_strcmp(tmp->token,  "|") != 0)
-	{
-		if (start == list)
-			break ;
-		if (ft_strcmp(tmp->token,  "<") == 0 || ft_strcmp(tmp->token,  ">") == 0)
-			return (true);
-		tmp = tmp->next;
-	}
-	return (false);
+	return (0);
 }
 
 static void	updata_name_value(t_node *node, char *token, bool key_type)
@@ -106,40 +59,24 @@ static void	updata_name_value(t_node *node, char *token, bool key_type)
 	}
 }
 
-t_node	*parser(t_node *node, t_token_list **list, char *type, t_type n_type)
+t_node	*parser(t_node *node, t_token_list **list, t_parse_check *key)
 {
-	t_token_list	*key_list;
-	char			*token;
-	bool			key_type;
-
 	node = all_node_init();
 	if (!node)
 		return (NULL);
-	key_type = false;
+	key->key_type = false;
 	while (*list)
 	{
-		token = pop_token(list);
-		if (!token)
+		key->token = pop_token(list);
+		if (!key->token)
 			return (NULL);
-		if (ft_strcmp(token, type) == 0)
+		if (ft_strcmp(key->token, "|") == 0)
 		{
-			if (!key_type)
-			{
-				key_type = true;
-				node->type = n_type;
-				node->value = token;
-				key_list = *list;
-			}
-			else
-			{
-				node->right->value = token;
-				node->right->type = n_type;
-				node->right = parser(node->right, &key_list, type, n_type);
+			if (updata_type_value(node, list, key) == 1)
 				break ;
-			}
 		}
 		else
-			updata_name_value(node, token, key_type);
+			updata_name_value(node, key->token, key->key_type);
 	}
 	if (!node->value)
 	{
@@ -149,26 +86,16 @@ t_node	*parser(t_node *node, t_token_list **list, char *type, t_type n_type)
 	return (node);
 }
 
-void	print_node(t_node *node)
-{
-	while (node->right)
-	{
-		printf("node_value-> %s\n", node->value);
-		printf("node_type-> %u\n\n", node->type);
-		printf("node_left-> %s\n", node->left->value);
-		printf("node_left_type-> %u\n\n", node->left->type);
-		printf("node_right-> %s\n", node->right->value);
-		printf("node_right_type-> %u\n\n", node->right->type);
-		printf("------------------\n");
-		node = node->right;
-	}
-}
-
 t_node	*parser_start(t_token_list **list)
 {
-	t_node	*node;
+	t_node			*node;
+	t_parse_check	*key;
 
-	node = parser(node, list, "|", N_PYPE);
+	key = (t_parse_check *)malloc(sizeof(t_parse_check));
+	if (!key)
+		return (NULL);
+	node = parser(node, list, key);
 	print_node(node);
+	free(key);
 	return (node);
 }

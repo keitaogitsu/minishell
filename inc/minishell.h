@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:45 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/09/29 18:36:59 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/16 00:20:27 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct s_token_list
 	struct s_token_list	*next;
 }	t_token_list;
 
+typedef struct s_parse_check
+{
+	char			*token;
+	bool			key_type;
+	t_token_list	*key_list;
+}	t_parse_check;
+
 typedef enum e_type
 {
 	N_COMMAND,
@@ -56,11 +63,20 @@ typedef struct s_node
 
 int		syntax_analysis(char *line);
 t_node	*parser_start(t_token_list **list);
+t_node	*parser(t_node *node, t_token_list **list, t_parse_check *key);
+
+//init
+t_node	*node_init(void);
+t_node	*all_node_init(void);
 
 //utils
 char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strstr(const char *big, const char *little);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*my_strjoin(char const *s1, char const *s2);
+
+//print
+void	print_list(t_token_list *list);
+void	print_node(t_node *node);
 
 #endif
