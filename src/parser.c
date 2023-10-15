@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:19:00 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/10/15 14:24:55 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:41:27 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,22 @@ bool	check_type(t_token_list *start, t_token_list *list)
 	return (false);
 }
 
+static void	updata_name_value(t_node *node, char *token, bool key_type)
+{
+	if (key_type)
+	{
+		node->right->type = N_COMMAND;
+		node->right->value = my_strjoin(node->right->value, token);
+		node->right->value = my_strjoin(node->right->value, " ");
+	}
+	else if (!key_type)
+	{
+		node->left->type = N_COMMAND;
+		node->left->value = my_strjoin(node->left->value, token);
+		node->left->value = my_strjoin(node->left->value, " ");
+	}
+}
+
 t_node	*parser(t_node *node, t_token_list **list, char *type, t_type n_type)
 {
 	t_token_list	*key_list;
@@ -105,39 +121,25 @@ t_node	*parser(t_node *node, t_token_list **list, char *type, t_type n_type)
 		token = pop_token(list);
 		if (!token)
 			return (NULL);
-		if (ft_strcmp(token, type) == 0 && !key_type)
+		if (ft_strcmp(token, type) == 0)
 		{
-			key_type = true;
-			node->type = n_type;
-			node->value = token;
-			key_list = *list;
+			if (!key_type)
+			{
+				key_type = true;
+				node->type = n_type;
+				node->value = token;
+				key_list = *list;
+			}
+			else
+			{
+				node->right->value = token;
+				node->right->type = n_type;
+				node->right = parser(node->right, &key_list, type, n_type);
+				break ;
+			}
 		}
-		else if (ft_strcmp(token, type) == 0)
-		{
-			node->right->value = token;
-			node->right->type = n_type;
-			node->right = parser(node->right, &key_list, type, n_type);
-			break ;
-		}
-//		else if (ft_strcmp(token, "<") == 0)
-//		{
-//			node->left->value = token;
-//			node->left->type = N_REDIR_IN;
-//			node->left = parser(node->left, &key_list, type, n_type);
-//			break ;
-//		}
-		else if (key_type)
-		{
-			node->right->type = N_COMMAND;
-			node->right->value = my_strjoin(node->right->value, token);
-			node->right->value = my_strjoin(node->right->value, " ");
-		}
-		else if (!key_type)
-		{
-			node->left->type = N_COMMAND;
-			node->left->value = my_strjoin(node->left->value, token);
-			node->left->value = my_strjoin(node->left->value, " ");
-		}
+		else
+			updata_name_value(node, token, key_type);
 	}
 	if (!node->value)
 	{
