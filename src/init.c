@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 00:15:40 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/10/16 00:15:44 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:55:30 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,19 @@ t_node	*node_init(void)
 	return (node);
 }
 
-t_node	*all_node_init(void)
+void	all_node_init(t_node *node)
 {
-	t_node	*node;
-
-	node = node_init();
-	if (!node)
-		return (NULL);
 	node->left = node_init();
 	if (!node->left)
 	{
 		free(node);
-		free(node->left);
-		return (NULL);
+		return ;
 	}
 	node->right = node_init();
 	if (!node->right)
 	{
 		free(node);
 		free(node->left);
-		return (NULL);
+		return ;
 	}
-	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 00:13:37 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/10/16 00:19:23 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:24:02 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static const char	*check_cmd_type(const char *str, t_token_list *head, \
 			d_quote = true;
 		else if (!d_quote && *str == S_QUOTE)
 			s_quote = true;
-		else if (d_quote && *str == D_QUOTE)
+		else if ((d_quote && *str == D_QUOTE) || (s_quote && *str == S_QUOTE))
 		{
 			str++;
 			break ;

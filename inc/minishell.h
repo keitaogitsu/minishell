@@ -6,7 +6,7 @@
 /*   By: fwatanab <fwatanab@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:17:45 by fwatanab          #+#    #+#             */
-/*   Updated: 2023/10/16 00:20:27 by fwatanab         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:15:32 by fwatanab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ typedef struct s_parse_check
 {
 	char			*token;
 	bool			key_type;
+	bool			key_redir;
 	t_token_list	*key_list;
+	t_token_list	*redir_list;
 }	t_parse_check;
 
 typedef enum e_type
@@ -53,21 +55,32 @@ typedef enum e_type
 	N_PYPE
 }	t_type;
 
+//typedef enum e_redir
+//{
+//	N_NONE,
+//	N_REDIR_IN,
+//	N_REDIR_OUT,
+//	N_REDIR_HERE,
+//	N_REDIR_APPEND,
+//}	t_redir;
+
 typedef struct s_node
 {
 	enum e_type		type;
 	char			*value;
+	char			*redir;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
 
+//tokenize & parser
 int		syntax_analysis(char *line);
 t_node	*parser_start(t_token_list **list);
 t_node	*parser(t_node *node, t_token_list **list, t_parse_check *key);
 
 //init
 t_node	*node_init(void);
-t_node	*all_node_init(void);
+void	all_node_init(t_node *node);
 
 //utils
 char	*ft_strndup(const char *s1, size_t n);
